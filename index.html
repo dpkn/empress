@@ -5,20 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>Empress</title>
+
+    <meta name="Description" content="Make art with your emotions! Empress is a drawing tool that changes its behaviour based on your facial expressions and screams.">
+    <meta name="Keywords" content="empress, drawing, interactive">
 
     <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-    <section id="webcamContainer">
+    <section class="webcamContainer">
         <video id="webcam" width="720" height="560" autoplay muted></video>
         <span id="emoji"></span>
     </section>
 
     <canvas id="canvas"></canvas>
 
-    <section id="buttons">
+    <section class="button-group">
         <button onclick="paper.project.clear()">
             CLEAR CANVAS
         </button>
@@ -32,6 +36,7 @@
             <h1>Empress</h1>
             <h2>impressionism + expressionism = empressionism</h2>
             <p>Make art with your emotions! Empress is a drawing tool that changes its behaviour based on your facial expressions and screams.</p>
+
             <div class="emojis">
                 <div id="neutral">😐</div>
                 <div id="angry">😡</div>
@@ -55,7 +60,7 @@
         -->
 
     <!-- External Libraries -->
-    <script src="js/paper/paper-full.js"></script>
+    <script src="js/paper/paper-full.min.js"></script>
     <script src="js/face-api/face-api.min.js"></script>
     <script src="js/audio-meter/audio-meter.js"></script>
 
