@@ -7,51 +7,170 @@ canvas {
     left: 0;
     margin: 0;
     padding: 0;
-    cursor: crosshair;
-    overflow:none;
+    overflow: hidden;
 }
 
-#emoji{
-    font-size:10em;
-    right:0;
+body {
+    cursor: crosshair;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+footer {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#buttons {
+    right: 0;
+    top: 0;
+    padding: 10px;
     position: fixed;
 }
-#webcam{
-    width:180px;
+
+#buttons button {
+    margin: 0 5px;
+}
+
+#webcamContainer {
+    z-index: 50;
+}
+
+#webcam {
+    width: 180px;
     height: 140px;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     margin: 0;
     position: fixed;
+    background: #f2f2f2;
+    border-right: 5px solid #000;
+    border-bottom: 5px solid #000;
+    z-index: 51;
 }
-canvas{
-    position:fixed;
-    top:0;
+
+#emoji {
+    font-size: 7em;
+    left: 34px;
+    top: 6px;
+    position: fixed;
+    z-index: 52;
 }
-h1{
-    position:absolute;
-    text-align: center;
+
+canvas {
+    position: fixed;
+    top: 0;
+}
+
+footer {
+    position: fixed;
+    margin: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 0.9em;
+    padding: 5px 20px;
+    z-index: 10;
+}
+
+footer a,
+footer a:hover,
+footer a:visited {
+    color: #000;
+}
+
+.modal {
+    position: fixed;
+    /* Stay in place */
+    z-index: 5;
+    /* Sit on top */
+    left: 0;
+    top: 0;
     width: 100%;
-    height:100%;
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: 100;
-    font-size: 10em;
-    color:#fff;
-    display:flex;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0;
-}
-h1{
-    user-select: none; /* supported by Chrome and Opera */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    pointer-events: none;
-    
+    background: #fff;
 }
 
-*{
-    box-sizing:border-box;
+
+/* Modal Content/Box */
+
+.modal-content {
+    padding: 20px;
+    max-width: 500px;
+    text-align: center;
+    font-weight: bold;
+    border: 5px solid #000;
+    background: #fff;
+}
+
+.modal-content h1 {
+    font-style: italic;
+    font-weight: 100;
+    font-size: 4em;
+    margin: 0;
+}
+
+.modal-content h2 {
+    font-style: italic;
+    font-weight: 100;
+    font-size: 1em;
+    margin: 0;
+}
+
+.modal-content p {
+    margin: 30px 0;
+}
+
+.emojis div {
+    display: inline-block;
+    padding: 12px 15px 8px 15px;
+    border: 3px solid #000;
+    font-size: 3em;
+    text-align: center;
+    margin: 4px;
+    margin-bottom: 20px;
+    transition: 0.5s background;
+}
+
+.emojis div.expressed {
+    background: #000;
+}
+
+button {
+    padding: 10px 15px;
+    border: 3px solid #000;
+    border-bottom: 7px solid #000;
+    background: #fff;
+    color: #000;
+    font-weight: bold;
+    outline: none;
+    margin-top: 0;
+    transition: 0.5s;
+}
+
+button:hover {
+    border-bottom: 3px solid #000;
+    margin-top: 4px;
+}
+
+button:disabled {
+    color: #fff;
+    background: #000;
+}
+
+button:disabled:hover {
+    border-bottom: 7px solid #000;
+    margin-top: 0;
 }

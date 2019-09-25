@@ -5,24 +5,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Imprexionism</title>
+    <title>Empress</title>
 
     <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-</body>
-    <video id="webcam" width="720" height="560" autoplay muted></video>
-    <span id="emoji"></span>
+    <section id="webcamContainer">
+        <video id="webcam" width="720" height="560" autoplay muted></video>
+        <span id="emoji"></span>
+    </section>
+
     <canvas id="canvas"></canvas>
-    <h1>IMPREXIONISM</h1>
-      
-    <!-- External Dependencies -->
+
+    <section id="buttons">
+        <button onclick="paper.project.clear()">
+            CLEAR CANVAS
+        </button>
+        <button onclick="saveCanvas()">
+            SAVE IMAGE
+        </button>
+    </section>
+
+    <section class="modal" id="intro-modal">
+        <div class="modal-content">
+            <h1>Empress</h1>
+            <h2>impressionism + expressionism = empressionism</h2>
+            <p>Make art with your emotions! Empress is a drawing tool that changes its behaviour based on your facial expressions and screams.</p>
+            <div class="emojis">
+                <div id="neutral">😐</div>
+                <div id="angry">😡</div>
+                <div id="sad">😔</div>
+                <div id="surprised">😮</div>
+            </div>
+            <button id="theButton">
+                GRANT CAMERA ACCESS
+            </button>
+        </div>
+        <footer>
+            <p>Made by <a target="_blank" href="https://danielkorssen.com">Dani&euml;l</a>.</p>
+        </footer>
+    </section>
+
+    <!-- 
+        Yes!! I did not use a fancy build tool this time.
+        I even didn't even bother to npm. Can you believe that.
+        Guess what, it still works!!! 
+        feels very good to manually use the <script> tag again
+        -->
+
+    <!-- External Libraries -->
     <script src="js/paper/paper-full.js"></script>
     <script src="js/face-api/face-api.min.js"></script>
     <script src="js/audio-meter/audio-meter.js"></script>
 
+    <!-- Own scripts -->
     <script src="js/impressionist.js"></script>
     <script src="js/expressionist.js"></script>
-    <script src="js/imprexionist.js"></script>
+    <script src="js/empress.js"></script>
+</body>
+
 </html>

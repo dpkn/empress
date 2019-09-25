@@ -1,95 +1,122 @@
-class Expressionist{
-  constructor(canvasEl){
-    this.canvasEl = canvasEl;
-    paper.setup(canvasEl);
+// This class contains all the Expressionist parts of the application:
+// Managing Paper.js, the canvas and the mousetool. 
+class Expressionist {
+    constructor(canvasEl) {
 
-    this.pencil = new paper.Tool();
-    this.pencil.minDistance = 10;
-    this.pencil.maxDistance = 45;
-    
-    this.mood = 'neutral';
+        // Initialize paper.js
+        this.canvasEl = canvasEl;
+        paper.setup(canvasEl);
 
-    // this atrocious way of registering callbacks is so that the
-    // this. inside the callbacks reference to the class instance    
-		this.pencil.onMouseDown = (event) => {this.mouseDown(event)};
-		this.pencil.onMouseDrag = (event) => {this.mouseDrag(event)};
-    this.pencil.onMouseUp = (event) => {this.mouseUp(event)};
+        // Create the mouse tool 
+        this.pencil = new paper.Tool();
+        this.pencil.minDistance = 5;
+        this.pencil.maxDistance = 30;
 
-    this.strokeTicker = 0;
-    this.mouseDownTicker = 0
+        // This atrocious way of registering callbacks is so that the
+        // this. inside the callbacks references to the class instance    
+        this.pencil.onMouseDown = (event) => { this.mouseDown(event) };
+        this.pencil.onMouseDrag = (event) => { this.mouseDrag(event) };
+        this.pencil.onMouseUp = (event) => { this.mouseUp(event) };
 
-    this.colors = {'neutral':'black','angry':'red','sad':'blue','surprised':'yellow'}
-    this.moods = {
-      neutral:{
-        color:'black',
-        strokeTickFactor:3
-      },
-      angry:{
-        color:'red',
-        strokeTickFactor:5
-      },
-      sad:{
-        color:'blue',
-        strokeTickFactor:0.5
-      },
-      surprised:{
-        color:'yellow',
-        strokeTickFactor:10
-      }
+        this.strokeTicker = 0;
+        this.mood = 'neutral';
+        this.audioLevel = 0;
+
+        // Brush style settings for each detectable mood
+        this.moods = {
+            neutral: {
+                color: 'black',
+                strokeHead: 3,
+                strokeLength: 5,
+                volumeFactor: 50,
+                baseSize: 5,
+                smoothPath: true
+            },
+            angry: {
+                color: 'red',
+                strokeHead: 1,
+                strokeLength: 4,
+                volumeFactor: 100,
+                baseSize: 8,
+                smoothPath: false
+            },
+            sad: {
+                color: 'blue',
+                strokeHead: 0.5,
+                strokeLength: 10,
+                volumeFactor: 90,
+                baseSize: 2,
+                smoothPath: true
+            },
+            surprised: {
+                color: 'yellow',
+                strokeHead: 3,
+                strokeLength: 6,
+                volumeFactor: 90,
+                baseSize: 10,
+                smoothPath: false
+            }
+        }
     }
-  }
 
-  mouseDown(event){
-    this.path = new paper.Path();
-    this.path.fillColor = this.moods[this.mood].color;
+    // Start a new path on mouseDown
+    mouseDown(event) {
+        this.path = new paper.Path();
+        this.path.fillColor = this.moods[this.mood].color;
+        this.path.add(event.point);
 
-    this.path.add(event.point);
-    this.strokeTicker = 0;
-    this.mouseDownTicker = 0;
-    this.passedTicker = false;
-  }
-
-  mouseDrag(event){
-
-    let drunkOffset = 0 //(1 + Math.sin(this.strokeTicker - .5*Math.PI))*100;
-    let step = event.delta;
-    step.angle += 90;
-    step.length = this.startStroke(20)
-
-    var top = event.middlePoint.add(step).add(drunkOffset,0);
-    var bottom = event.middlePoint.subtract(step).add(drunkOffset,0);
-    
-    this.path.add(top);
-    this.path.insert(0, bottom);
-    this.path.smooth();
-    this.strokeTicker+=1;
-    this.mouseDownTicker+=1;
-
-    if(this.strokeTicker>50){
-      this.path.add(event.point);
-      this.path.closed = true;
-      this.path.smooth();
-      console.log('newpath')
-
-      this.path = new paper.Path();
-      this.path.add(event.point);
-      this.path.fillColor = this.moods[this.mood].color;
-      this.strokeTicker = 0;
+        // Reset strokeTicker
+        this.strokeTicker = 0;
     }
-  }
 
-  mouseUp(event){
-    this.path.add(event.point);
-    this.path.closed = true;
-    this.path.smooth();
-  }
+    // Close and smooth the path on mouseUp
+    mouseUp(event) {
+        this.path.add(event.point);
+        this.path.closed = true;
 
-  startStroke(width){
-    let stroke = Math.round(this.mouseDownTicker*this.moods[this.mood].strokeTickFactor)//(1+ Math.sin(this.path.length/40 - .5*Math.PI))*width
-    if(stroke < 1){
-      stroke = 1;
+        if (this.mood != 'angry')
+            this.path.smooth();
+
+        // Simplify to make it a bit more efficient
+        this.path.simplify();
     }
-    return stroke >= width ? width : stroke;
-    
-  }
+
+    // Extend path on mouseDrag
+    mouseDrag(event) {
+        // The position of the mouse is used as the midpoint of the path
+        let step = event.delta;
+        step.angle += 90;
+        step.length = this.calculateBrushSize();
+
+        let right = event.middlePoint.add(step);
+        let left = event.middlePoint.subtract(step);
+        this.path.add(right);
+        this.path.insert(0, left);
+
+        if (this.mood != 'angry')
+            this.path.smooth();
+
+        this.strokeTicker++;
+
+        // If the path reaches the maximum length as defined in its mood
+        // settings, close it off and start a new one.
+        if (this.strokeTicker > this.moods[this.mood].strokeLength) {
+            this.mouseUp(event)
+            this.mouseDown(event)
+        }
+
+    }
+
+    calculateBrushSize() {
+        let maxWidth = this.moods[this.mood].baseSize + this.audioLevel * this.moods[this.mood].volumeFactor
+
+        // 
+        let stroke = Math.round((maxWidth / this.moods[this.mood].strokeHead) * this.strokeTicker);
+
+        if (stroke < 1)
+            stroke = 1;
+
+        return stroke >= maxWidth ? maxWidth : stroke;
+
+    }
 }
