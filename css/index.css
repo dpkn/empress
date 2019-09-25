@@ -19,6 +19,9 @@ body {
     box-sizing: border-box;
 }
 
+
+/* Typography */
+
 h1,
 h2,
 h3,
@@ -29,114 +32,111 @@ footer {
     font-family: 'Times New Roman', Times, serif;
 }
 
-#buttons {
+h1,
+h2 {
+    font-style: italic;
+    font-weight: 100;
+    margin: 0;
+}
+
+h1 {
+    font-size: 4em;
+}
+
+h2 {
+    font-size: 1em;
+}
+
+p {
+    margin: 30px 0;
+}
+
+
+/* The button group in the right corner */
+
+.button-group {
     right: 0;
     top: 0;
-    padding: 10px;
+    margin: 10px;
     position: fixed;
 }
 
-#buttons button {
+.button-group button {
     margin: 0 5px;
 }
 
-#webcamContainer {
-    z-index: 50;
-}
 
-#webcam {
-    width: 180px;
-    height: 140px;
+/* The Webcam video in the left corner */
+
+.webcamContainer {
+    z-index: 50;
+    position: fixed;
     top: 0;
     left: 0;
-    margin: 0;
-    position: fixed;
+    margin: 10px;
+}
+
+.webcamContainer video {
+    width: 180px;
+    height: 140px;
     background: #f2f2f2;
-    border-right: 5px solid #000;
-    border-bottom: 5px solid #000;
+    border: 5px solid #000;
     z-index: 51;
 }
 
-#emoji {
+.webcamContainer span {
     font-size: 7em;
     left: 34px;
     top: 6px;
-    position: fixed;
+    position: absolute;
     z-index: 52;
 }
 
-canvas {
-    position: fixed;
-    top: 0;
-}
 
-footer {
-    position: fixed;
-    margin: 0;
-    bottom: 0;
-    left: 0;
-    font-size: 0.9em;
-    padding: 5px 20px;
-    z-index: 10;
-}
-
-footer a,
-footer a:hover,
-footer a:visited {
-    color: #000;
-}
+/* Modal  */
 
 .modal {
     position: fixed;
-    /* Stay in place */
     z-index: 5;
-    /* Sit on top */
     left: 0;
     top: 0;
     width: 100%;
-    /* Full width */
     height: 100%;
-    /* Full height */
     display: flex;
     align-items: center;
     justify-content: center;
     background: #fff;
 }
 
-
-/* Modal Content/Box */
-
 .modal-content {
     padding: 20px;
     max-width: 500px;
+    min-width: 260px;
     text-align: center;
     font-weight: bold;
     border: 5px solid #000;
     background: #fff;
 }
 
-.modal-content h1 {
-    font-style: italic;
-    font-weight: 100;
-    font-size: 4em;
-    margin: 0;
+@media only screen and (max-width: 900px) {
+    .modal {
+        display: block;
+        padding: 10px;
+    }
+    .modal-content {
+        margin: 0 auto;
+        margin-top: 155px;
+    }
 }
 
-.modal-content h2 {
-    font-style: italic;
-    font-weight: 100;
-    font-size: 1em;
-    margin: 0;
-}
 
-.modal-content p {
-    margin: 30px 0;
-}
+/* The Emojis in the modal*/
 
 .emojis div {
     display: inline-block;
     padding: 12px 15px 8px 15px;
-    border: 3px solid #000;
+    background: #f2f2f2;
+    border-radius: 5px;
     font-size: 3em;
     text-align: center;
     margin: 4px;
@@ -147,6 +147,9 @@ footer a:visited {
 .emojis div.expressed {
     background: #000;
 }
+
+
+/* Button */
 
 button {
     padding: 10px 15px;
@@ -173,4 +176,36 @@ button:disabled {
 button:disabled:hover {
     border-bottom: 7px solid #000;
     margin-top: 0;
+}
+
+
+/* The footer */
+
+footer {
+    position: fixed;
+    margin: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 0.9em;
+    padding: 5px 20px;
+    z-index: 10;
+}
+
+footer a,
+footer a:hover,
+footer a:visited {
+    color: #000;
+}
+
+footer p {
+    margin: 0;
+}
+
+@media only screen and (max-width: 900px) {
+    footer {
+        position: relative;
+        text-align: center;
+        width: 100%;
+        padding: 20px;
+    }
 }
