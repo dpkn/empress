@@ -50,7 +50,7 @@ class Expressionist {
             },
             surprised: {
                 color: 'yellow',
-                strokeHead: 3,
+                strokeHead: 2,
                 strokeLength: 6,
                 volumeFactor: 90,
                 baseSize: 10,
