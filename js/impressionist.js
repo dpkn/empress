@@ -14,7 +14,7 @@ class Impressionist {
         this.loadModels();
     }
 
-    // loads all Faceapi models 
+    // Loads all Faceapi models 
     loadModels() {
         Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri('models'),
